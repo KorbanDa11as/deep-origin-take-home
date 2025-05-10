@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { columns } from './columnDef';
+import { Table } from './components/table/table';
+import { getTasks, Task } from './api/methods';
 
 function App() {
+  const [isLoading, setLoading] = useState(true)
+  const [data, setData] = React.useState<Task[]>([])
+  async function asyncWrapper() {
+    console.log('test')
+    setData(await getTasks())
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    getTasks()
+    asyncWrapper()
+  }, [])
+  if (isLoading) return <>loading</>
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Table
+        data={data}
+        columns={columns}
+        updateData={asyncWrapper}
+
+      />
     </div>
   );
 }

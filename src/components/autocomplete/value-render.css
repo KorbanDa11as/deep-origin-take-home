@@ -1,0 +1,41 @@
+.value-container {
+  display: flex;
+  min-width: 0;
+  background-color: hsl(0, 0%, 90%);
+  border-radius: 2px;
+  margin: 2px;
+  box-sizing: border-box;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  color: hsl(0, 0%, 20%);
+  font-size: 85%;
+  padding: 3px;
+  padding-left: 6px;
+  box-sizing: border-box;
+}
+
+.remove-icon {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  box-sizing: border-box;
+  stroke-width: 0;
+}
+
+.remove-icon:hover {
+  background-color: #FFBDAD;
+  color: #DE350B;
+}
