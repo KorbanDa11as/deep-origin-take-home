@@ -64,7 +64,7 @@ func main() {
 	// })
 	// // GET Methods
 
-	e.GET("/tasks/:page", func(c echo.Context) error {
+	e.GET("/tasks", func(c echo.Context) error {
 		// var page int
 		// ParseParam(c, "page", &page)
 
