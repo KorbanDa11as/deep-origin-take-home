@@ -2,15 +2,14 @@
 
 1. within the root folder ( where `src/`, `serverGo/`, `public/` exist) run: `npm install`
 2. `cd ./serverGo`
-3. run `install go command`
-4. `cd ./serverGo/datalayer`
-5. `sqlite3 test.db <taskDB_schema.sql`
+3. `cd ./serverGo/datalayer`
+4. `sqlite3 test.db <taskDB_schema.sql`
 
 # Run the app
 
 1. navigate to `serverGo/` dir
-2. enter cmd: `air` the go server should run on port 8000
-3. in a seperate terminal navigate to the root where `package.json` exists
+2. enter cmd: `go run .` the echo server should run on port 8000
+3. in a separate terminal navigate to the root where `package.json` exists
 4. run `npm start`
 
 # Packages Used
@@ -38,16 +37,16 @@ radix-ui/tooltip:
 
 ## client side
 
-relevant entry point: `src/App.tsx`
-component library: `src/components/`
-Column configuration for table : `src/colum-def.tsx`
-api interface methods/ contracts: `src/api`
+- relevant entry point: `src/App.tsx`
+- component library: `src/components/`
+- Column configuration for table : `src/colum-def.tsx`
+- api interface methods/ contracts: `src/api`
 
 ## server side
 
-relevant entry point: `serverGo/server.go` - has all the implemented api methods
-Persistence layer methods: `serverGo/datalayer/methods.go`
-schema + data population: `serverGo/datalayer/taskDB_schema.sql`
+- relevant entry point: `serverGo/server.go` - has all the implemented api methods
+- Persistence layer methods: `serverGo/datalayer/methods.go`
+- schema + data population: `serverGo/datalayer/taskDB_schema.sql`
 
 # Performance considerations
 
