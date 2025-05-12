@@ -1,9 +1,10 @@
 .value-container {
   display: flex;
   min-width: 0;
-  background-color: hsl(0, 0%, 90%);
   border-radius: 2px;
   margin: 2px;
+  background-color: #26292b !important;
+  color: #9c9c9c !important;
   box-sizing: border-box;
 }
 
@@ -12,11 +13,22 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   border-radius: 2px;
-  color: hsl(0, 0%, 20%);
   font-size: 85%;
   padding: 3px;
   padding-left: 6px;
   box-sizing: border-box;
+  max-width: 250px;
+}
+
+.fallback-avatar {
+  border-radius: 26px;
+  width: 20px;
+  height: 20px;
+  padding: 1px;
+  margin-inline-end: 2px;
+
+  text-align: center;
+  align-content: center;
 }
 
 .remove-icon {
