@@ -67,7 +67,7 @@ radix-ui/tooltip:
 # Known limitations
 
 1. the react-select component re-renders sub components when a new menu entry is highlighted (naive memoization of the sub components did not help)
-2. row updates force page to refresh
+2. row updates force table to fetch page data
 
 # Future Extensions
 
