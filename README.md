@@ -57,7 +57,7 @@ radix-ui/tooltip:
 1. column count is not orders of magnitude greater than page size
 2. getting a single page of data is not costly
 3. user list is relatively stable
-4. both memoization of functions (useCallback) and react components (memo) are lower priority if the re-renders observed are low
+4. both memoization of functions (useCallback) and react components (memo) are lower priority if the re-renders/recalcs observed are low,
 
 # Error handling
 
