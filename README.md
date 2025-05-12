@@ -51,6 +51,7 @@ radix-ui/tooltip:
 
 1. make top level initial call to `GET /Users` in `./src/App.tsx` to avoid each row needing get the users for each multi-select component
 2. break up the `GET /Tasks` data into pages controlled by a paginated table component to handle large datasets gracefully
+3. both memoization of functions (useCallback) and react components (memo) were lower priority given the number of re-renders observed
 
 # Error handling
 
@@ -60,5 +61,6 @@ radix-ui/tooltip:
 # Future Extensions
 
 1. add better error states
-2. the react-select component re-renders sub components when a new menu entry is highlighted
+2. the react-select component re-renders sub components when a new menu entry is highlighted (naive memoization of the sub components did not help)
 3. error codes from the server
+4. optimize render performance
