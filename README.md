@@ -1,9 +1,8 @@
 # Installation
 
 1. within the root folder ( where `src/`, `serverGo/`, `public/` exist) run: `npm install`
-2. `cd ./serverGo`
-3. `cd ./serverGo/datalayer`
-4. `sqlite3 test.db <taskDB_schema.sql`
+2. `cd ./serverGo/datalayer`
+3. `sqlite3 test.db <taskDB_schema.sql`
 
 # Run the app
 
@@ -39,7 +38,7 @@ radix-ui/tooltip:
 
 - relevant entry point: `src/App.tsx`
 - component library: `src/components/`
-- Column configuration for table : `src/colum-def.tsx`
+- Column configuration for table : `src/column-def.tsx`
 - api interface methods/ contracts: `src/api`
 
 ## server side
