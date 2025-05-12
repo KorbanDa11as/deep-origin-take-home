@@ -1,6 +1,6 @@
 # Installation
 
-1. within the root folder ( where `src/`, `serverGo/`, `public/` exist) run: `npm install`
+1. within the root folder ( where `package.json` exists) run: `npm install`
 2. `cd ./serverGo/datalayer`
 3. `sqlite3 test.db <taskDB_schema.sql`
 
@@ -64,3 +64,4 @@ radix-ui/tooltip:
 2. the react-select component re-renders sub components when a new menu entry is highlighted (naive memoization of the sub components did not help)
 3. error codes from the server
 4. optimize render performance
+5. implement detail page routing for link column
