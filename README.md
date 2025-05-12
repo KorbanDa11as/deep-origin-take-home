@@ -61,3 +61,4 @@ radix-ui/tooltip:
 
 1. add better error states
 2. the react-select component re-renders sub components when a new menu entry is highlighted
+3. error codes from the server
