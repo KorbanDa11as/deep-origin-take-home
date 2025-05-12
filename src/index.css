@@ -8,6 +8,44 @@ body {
 }
 
 
+html {
+  background-color: #181b1a;
+  color: #9c9c9c;
+
+
+}
+
+* {
+  border-color: #3c4144 !important
+}
+
+button {
+  border: 1px;
+  color: #9c9c9c;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  background-color: hsl(195, 4%, 20%) !important;
+
+}
+
+button:hover,
+button:focus {
+  background: #0053ba;
+}
+
+button:focus {
+  outline: 1px solid #fff;
+  outline-offset: -4px;
+}
+
+button:active {
+  transform: scale(0.99);
+}
+
+a {
+  color: #8dc8fd
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

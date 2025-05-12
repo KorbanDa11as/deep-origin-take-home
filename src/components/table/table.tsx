@@ -32,7 +32,7 @@ export function Table({
     getExpandedRowModel: getExpandedRowModel(),
     meta: { updateData }
   })
-
+  if (data == undefined) return <></>
   return (
     <div className="p-2">
       <div className="h-2" />
@@ -42,7 +42,7 @@ export function Table({
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 return (
-                  <th key={header.id} colSpan={header.colSpan}>
+                  <th key={header.id} colSpan={header.colSpan} style={{ width: header.getSize() }} >
                     {header.isPlaceholder ? null : (
                       <div>
                         {flexRender(
@@ -65,7 +65,7 @@ export function Table({
                   {/* first row is a normal row */}
                   {row.getVisibleCells().map(cell => {
                     return (
-                      <td key={cell.id}>
+                      <td key={cell.id} style={{ width: cell.column.getSize() }}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

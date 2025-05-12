@@ -25,3 +25,9 @@ tfoot {
 tfoot th {
   font-weight: normal;
 }
+
+.pagination {
+  button {
+    margin: 4px;
+  }
+}
