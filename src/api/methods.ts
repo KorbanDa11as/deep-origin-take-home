@@ -11,33 +11,58 @@ export type User = {
   first: string
   last: string
 }
-export async function getUsers() {
+
+export type Error = {
+  name: string;
+  message: string;
+  stack?: string;
+}
+export type GenericDataEndpoint<TData> = {
+  data: TData[]
+  total: number
+}
+
+export async function filterUsers(inputValue: string, transform?: (data: User[]) => any[]) {
   try {
-    const resp = await fetch('http://localhost:8000/users')
-    const data = await resp.json()
-    return data as User[]
-    console.log(data)
+    const data = await getUsers(inputValue)
+    if (data instanceof Error) throw data
+    else
+      // return (data as User[]).map(user => ({ label: user.first + ' ' + user.last, value: user.id })) as Option[]
+      return transform ? transform(data as User[]) : data as User[]
   }
   catch (e) {
-    console.log(e)
+    console.error(e)
+    throw e
   }
+
 }
-export async function getTasks() {
+export async function getUsers(filterName: string): Promise<User[] | Error> {
   try {
-    const resp = await fetch('http://localhost:8000/tasks')
+    const resp = await fetch(`http://localhost:8000/users?name=${filterName}`)
     const data = await resp.json()
     return data
-    console.log(data)
   }
   catch (e) {
-    console.log(e)
+    console.error(e)
+
+    return new Error("error fetching tasks")
+  }
+}
+export async function getTasks(page: number, pageSize: number): Promise<GenericDataEndpoint<Task> | Error> {
+  try {
+    const resp = await fetch(`http://localhost:8000/tasks/${page}?limit=${pageSize}`)
+    const data = await resp.json()
+    return data
+  }
+  catch (e) {
+    console.error(e)
+    return new Error(' error fetching tasks')
   }
 }
 
 export type updateAssigneeTask = { taskId: string, userIds: string[] }
 export async function updateAssignees({ taskId, userIds }: updateAssigneeTask) {
   try {
-    console.log('update', taskId, userIds)
     const resp = await fetch(`http://localhost:8000/tasks/${taskId}`, {
       method: 'POST',
       headers: {
@@ -47,7 +72,6 @@ export async function updateAssignees({ taskId, userIds }: updateAssigneeTask) {
     })
   }
   catch (e) {
-
-    console.log(e)
+    console.error(e)
   }
 }
