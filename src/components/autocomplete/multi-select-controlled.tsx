@@ -10,7 +10,7 @@ import {
   OnChangeValue,
   Options,
 } from "react-select";
-import { ValueRender } from "./value-render";
+import { DefaultAvatar, ValueRender } from "./value-render";
 import './multi-select.css'
 
 
@@ -39,7 +39,7 @@ const Input = memo(({ children, ...props }: InputProps<Option>) => {
   if (selected.length > 1) {
     return (
       <>
-        <Trigger >+{selected.length - 1}</Trigger>
+        <Trigger className="value-container" >+{selected.length - 1}</Trigger>
         <components.Input {...props}>{children}</components.Input>
       </>
     );
@@ -60,10 +60,9 @@ const MultiValue = ({
     return <></>;
   }
   return (
-    <components.MultiValue {...props}>
-      <div>
-        {children}
-      </div>
+    <components.MultiValue {...props} className="selected-value">
+      {DefaultAvatar(props.data.label)}
+      {children}
     </components.MultiValue >
   );
 };
@@ -75,25 +74,35 @@ export interface Option {
   readonly label: string;
 }
 type AsyncAutoCompleteProps = {
-  loadOptions: (filterString: string) => Promise<Option[]>
+  filterOptions: (filterString: string) => Promise<Option[]>
   changeHandler: (newSelection: OnChangeValue<Option, true>) => void
+  initOptions: Option[]
   selection: Option[]
 }
-export function AutoComplete({ loadOptions, changeHandler, selection }: AsyncAutoCompleteProps) {
-
+export function AutoComplete({ filterOptions, changeHandler, selection, initOptions = [] }: AsyncAutoCompleteProps) {
   function removeValue(options: Options<Option>, index: number) {
     changeHandler(selection.filter((_, i) => i !== index))
   }
+  const [isLoading, setLoading] = useState(false)
+  async function loadOptions(input: string) {
+    setLoading(true)
+    const options = await filterOptions(input)
+    setLoading(false)
+    return options
+
+  }
+
+
   return (<Provider>
-    <Root >
+    <Root  >
       < AsyncSelect
+        className="select-container"
         onChange={changeHandler}
-        cacheOptions
+        isLoading={isLoading}
         isMulti
         value={selection}
-        // components={{ Control, MultiValue: (props) => MultiValue({ removeValue: removeValue, ...(props as MultiValueProps<Option>) }), Input }}
+        defaultOptions={initOptions}
         components={{ Input, MultiValue }}
-        defaultOptions
         loadOptions={loadOptions}
       ></AsyncSelect>
       <Portal>
@@ -108,6 +117,6 @@ export function AutoComplete({ loadOptions, changeHandler, selection }: AsyncAut
         </Content>
       </Portal>
     </Root>
-  </Provider>)
+  </Provider >)
 };
 ;

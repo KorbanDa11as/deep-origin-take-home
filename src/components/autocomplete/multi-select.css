@@ -1,4 +1,15 @@
 .tooltip-content {
+  max-width: 500px;
+  transform: translateY(-10px);
+  background-color: #2a292b !important;
+}
 
-  background-color: hsl(0, 0%, 90%);
+.select-container>div {
+  background-color: #131516;
+}
+
+.selected-value {
+  max-width: 250px;
+  background-color: #26292b !important;
+  color: #9c9c9c !important;
 }
