@@ -94,7 +94,7 @@ export function MultiSelect({ filterOptions, changeHandler, selection, initOptio
 
 
   return (<Provider>
-    <Root open >
+    <Root>
       < AsyncSelect
         className="select-container"
         onChange={changeHandler}
