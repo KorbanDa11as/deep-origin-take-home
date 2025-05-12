@@ -22,6 +22,7 @@
 
 .fallback-avatar {
   border-radius: 26px;
+  width: 20px;
   height: 18px;
   font-size: small;
   padding: 1px;

@@ -13,3 +13,8 @@
   background-color: #26292b !important;
   color: #9c9c9c !important;
 }
+
+.selected-value>div[role=button]:hover {
+  background-color: #FFBDAD !important;
+  color: #DE350B !important;
+}
