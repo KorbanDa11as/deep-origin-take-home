@@ -38,7 +38,7 @@ radix-ui/tooltip:
 
 - relevant entry point: `src/App.tsx`
 - component library: `src/components/`
-- Column configuration for table : `src/column-def.tsx`
+- Column configuration for table : `src/metadata/task-columns.tsx`
 - api interface methods/ contracts: `src/api`
 
 ## server side
@@ -64,4 +64,5 @@ radix-ui/tooltip:
 2. the react-select component re-renders sub components when a new menu entry is highlighted (naive memoization of the sub components did not help)
 3. error codes from the server
 4. optimize render performance
-5. implement detail page routing for link column
+5. build out persistent avatars
+6. implement detail page routing for link column

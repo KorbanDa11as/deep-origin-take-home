@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { columns } from './column-def';
+import { columns } from './metadata/task-columns';
 import { Table } from './components/table/table';
 import { filterUsers, getTasks, getUsers, Task, User } from './api/methods';
 import { ServerTable } from './components/table/server-table';

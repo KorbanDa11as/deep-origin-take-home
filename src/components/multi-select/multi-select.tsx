@@ -15,7 +15,6 @@ import './multi-select.css'
 
 
 const Control = ({ children, ...props }: ControlProps<Option>) => {
-  // @ts-ignore
 
   const selected = props.getValue();
 
@@ -32,10 +31,7 @@ const Control = ({ children, ...props }: ControlProps<Option>) => {
 };
 
 const Input = memo(({ children, ...props }: InputProps<Option>) => {
-  // @ts-ignore
-
   const selected = props.getValue();
-  // console.log('input', props)
   if (selected.length > 1) {
     return (
       <>
@@ -54,11 +50,10 @@ const MultiValue = ({
   children,
   ...props
 }: MultiValueProps<Option>) => {
-  // @ts-ignore
-  // console.log("mv:", props.selectProps, children);
   if (props.index > 0) {
     return <></>;
   }
+
   return (
     <components.MultiValue {...props} className="selected-value">
       {DefaultAvatar(props.data.label)}

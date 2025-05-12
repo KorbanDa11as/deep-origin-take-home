@@ -1,11 +1,10 @@
 import { ColumnDef, Table, } from "@tanstack/react-table";
 import { MultiValue } from "react-select";
-import { MultiSelect, Option } from "./components/multi-select/multi-select";
-import { TableMeta } from "./components/table/table";
-import { filterUsers, getUsers, Task, updateAssignees, User } from "./api/methods";
+import { MultiSelect, Option } from "../components/multi-select/multi-select";
+import { TableMeta } from "../components/table/table";
+import { filterUsers, getUsers, Task, updateAssignees, User } from "../api/methods";
 
 async function handleAssigneeUpdate(selection: MultiValue<Option>, rowData: Task, table: Table<Task>) {
-  console.log(selection, rowData)
   await updateAssignees({ taskId: rowData.id, userIds: selection.map(option => option.value) })
   const tableHelpers = table.options.meta as TableMeta<Task>
   tableHelpers && tableHelpers.updateData()

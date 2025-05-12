@@ -15,6 +15,7 @@ export function PaginationControl({ page, pageSize, totalRowCount, setPage }: Pa
 
   const upperBoundPage = Math.ceil(totalRowCount / pageSize)
   const dataRange = `${rowIndexRange[0]}-${rowIndexRange[1]}`;
+
   return <div className="pagination">
     {totalRowCount > 0 && (
       <span >
