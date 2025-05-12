@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactElement, useMemo } from "react"
+import { MouseEventHandler, ReactElement, useCallback, useMemo } from "react"
 import "./value-render.css"
 const colorPairs = [
   { background: '#1A1A1A', text: '#FFFFFF' },
@@ -25,12 +25,15 @@ function CrossIcon() {
 
 
 export function ValueRender({ label, value, avatar = DefaultAvatar(label), removeHandler }: { label: string, value: any, avatar?: ReactElement, removeHandler: MouseEventHandler<HTMLDivElement> | undefined }) {
+
+  const onClickHandler = useCallback(() => removeHandler && removeHandler(value), [removeHandler])
+
   return <span className="value-container" style={{ display: 'inline-flex', height: '20px' }}>
     {avatar}
     < span className="label" >
       {label}
     </span >
-    <span className="remove-icon " onClick={() => removeHandler && removeHandler(value)} style={{ alignContent: 'flex-end' }}>
+    <span className="remove-icon " onClick={onClickHandler} style={{ alignContent: 'flex-end' }}>
       <CrossIcon />
     </span>
   </span >

@@ -38,7 +38,7 @@ export function ServerTable({
     else {
       const { data, total } = resp as GenericDataEndpoint<Task>
       setPageData(data as Task[])
-      // setRowCount(total)
+      setRowCount(total)
     }
   }
   useEffect(() => {
