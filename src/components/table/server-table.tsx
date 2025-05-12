@@ -17,7 +17,7 @@ import { buttonClasses } from '@mui/material';
 import { PaginationControl } from './pagination-control';
 
 type TableProps<TData> = {
-  fetchData: (page: number, pageSize: number) => Promise<GenericDataEndpoint<Task> | null>
+  fetchData: (page: number, pageSize: number) => Promise<GenericDataEndpoint<Task> | Error>
   columns: ColumnDef<TData>[]
 }
 
