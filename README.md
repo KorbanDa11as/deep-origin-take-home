@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+# Installation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. within the root folder ( where `src/`, `serverGo/`, `public/` exist) run: `npm install`
+2. `cd ./serverGo`
+3. run `install go command`
+4. `cd ./serverGo/datalayer`
+5. `sqlite3 test.db <taskDB_schema.sql`
 
-## Available Scripts
+# Run the app
 
-In the project directory, you can run:
+1. navigate to `serverGo/` dir
+2. enter cmd: `air` the go server should run on port 8000
+3. in a seperate terminal navigate to the root where `package.json` exists
+4. run `npm start`
 
-### `npm start`
+# Packages Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+react-table:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- fully featured,
+- highly extensible,
+- headless,
+- supports server data,
+- configurable column def
 
-### `npm test`
+react-select:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- most popular autocomplete package
+- includes functional multi-select
+- over-writable composite components
 
-### `npm run build`
+radix-ui/tooltip:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- context pattern which provides component isolation between the tooltip content, and the trigger
+- context pattern keeps the logic localized to the relevant render tree
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# code Organization
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## client side
 
-### `npm run eject`
+relevant entry point: `src/App.tsx`
+component library: `src/components/`
+Column configuration for table : `src/colum-def.tsx`
+api interface methods/ contracts: `src/api`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## server side
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+relevant entry point: `serverGo/server.go` - has all the implemented api methods
+Persistence layer methods: `serverGo/datalayer/methods.go`
+schema + data population: `serverGo/datalayer/taskDB_schema.sql`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Performance considerations
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. make top level initial call to `GET /Users` in `./src/App.tsx` to avoid each row needing get the users for each multi-select component
+2. break up the `GET /Tasks` data into pages controlled by a paginated table component to handle large datasets gracefully
 
-## Learn More
+# Error handling
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. wrap api calls in try catch to handle errors if they don't match the contract
+2. create error state variables in the components to control the render should an error be detected in the api calls
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Future Extensions
+
+1. add better error states
+2. the react-select component re-renders sub components when a new menu entry is highlighted
