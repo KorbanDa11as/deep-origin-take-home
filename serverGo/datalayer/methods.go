@@ -130,73 +130,84 @@ func DeleteAssoc(entity string, ID int64) bool {
 	return true
 }
 
-func DeleteTask(TimerConfigID int64) bool {
-	status := DeleteAssoc("task", TimerConfigID)
-	if !status {
-		fmt.Println("err in deleteAssoc with task")
-	}
-
-	db := openDB()
-	defer db.Close()
-
-	// err1 := db.QueryRow("INSERT INTO Interval (duration, name, color) VALUES(?,?,?) RETURNING interval_id", newInterval.Duration, newInterval.Metadata.Name, newInterval.Metadata.Color).Scan(&intervalID)
-	_, err1 := db.Exec("DELETE FROM task WHERE id=?;", TimerConfigID)
-	if err1 != nil {
-		fmt.Print("err1 in DeleteTask   ", err1)
-		return false
-	}
-	return true
-}
-
 // Get funcs
 
 func GetTask(id int64) Task {
 	db := openDB()
 	defer db.Close()
-	var timer Task
+	var task Task
 
-	err := db.QueryRow("SELECT id, name, progress FROM task WHERE id = ?", id).Scan(&timer.Id, &timer.Progress, &timer.Name, &timer.Tags)
+	err := db.QueryRow("SELECT id, name, progress FROM task WHERE id = ?", id).Scan(&task.Id, &task.Progress, &task.Name, &task.Tags)
 	if err != nil {
-		fmt.Print("err in query Timer by id:", err)
+		fmt.Print("err in query task by id:", err)
 	}
-	return timer
+	return task
 }
 
-func QueryTasksWithUser(page int, pageSize int) *sql.Rows {
+func QueryTasksWithUser(offset int, pageSize int) *sql.Rows {
 	db := openDB()
 	defer db.Close()
-
-	rows, err := db.Query("SELECT t.*,u.* FROM task t LEFT JOIN task_assignees a ON t.id=a.task LEFT JOIN user u ON a.user=u.id ")
+	rows, err := db.Query("SELECT t.*,u.* FROM (SELECT * FROM task LIMIT ? OFFSET ? ) t  LEFT JOIN task_assignees a ON t.id=a.task LEFT JOIN user u ON a.user=u.id ORDER BY t.id", pageSize, offset)
 	if err != nil {
 		fmt.Print("err in query tasks with user ", err)
 	}
 	return rows
 }
 
-func GetUsers() []User {
+func QueryUser() *sql.Rows {
 	db := openDB()
 	defer db.Close()
-	rows, err := db.Query("SELECT id, first_name, last_name FROM user ")
+
+	rows, err := db.Query("SELECT id, first_name, last_name FROM user")
 	if err != nil {
-		fmt.Print("err in query user ", err)
+		fmt.Print("err in query tasks with user ", err)
+	}
+	return rows
+}
+
+func QueryUserWithName(name string) *sql.Rows {
+	db := openDB()
+	defer db.Close()
+	containsName := "%" + name + "%"
+	rows, err := db.Query("SELECT id, first_name, last_name FROM user WHERE first_name LIKE ? OR last_name LIKE ?", containsName, containsName)
+	if err != nil {
+		fmt.Print("err in query tasks with user ", err)
+	}
+	return rows
+}
+
+func GetUsers(fullName string) []User {
+	var rows *sql.Rows
+	if len(fullName) > 0 {
+		rows = QueryUserWithName(fullName)
+	} else {
+		rows = QueryUser()
 	}
 	defer rows.Close()
 
 	var users []User
 	for rows.Next() {
 		var userRow User
-		fmt.Println("user", userRow)
 		rows.Scan(&userRow.Id, &userRow.First, &userRow.Last)
 		users = append(users, userRow)
 	}
-	if err != nil {
-		fmt.Print("err in query tasks with user ", err)
-	}
+	fmt.Println("naem", fullName, users)
 	return users
 }
 
-func GetTasks() []TaskWithUser {
-	rows := QueryTasksWithUser(0, 10)
+func QueryIntervalCount() int {
+	db := openDB()
+	defer db.Close()
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM task").Scan(&count)
+	if err != nil {
+		fmt.Print("err in count interval query ", err)
+	}
+	return count
+}
+
+func GetTasks(page int, pageSize int) ([]TaskWithUser, int) {
+	rows := QueryTasksWithUser(page*pageSize, 10)
 	defer rows.Close()
 	var taskWithAssignee []TaskWithUser
 	var lastIterRowId int64
@@ -212,7 +223,6 @@ func GetTasks() []TaskWithUser {
 			newCompositon := []User{taskUserRow.Assignee}
 			var newTaskEntry TaskWithUser
 			if taskUserRow.Assignee.Id == 0 {
-				fmt.Println("WTF", newTaskEntry)
 				newTaskEntry = TaskWithUser{Task: Task{Id: taskUserRow.Id, NewTask: NewTask{Progress: taskUserRow.Progress, Name: taskUserRow.Name, Tags: taskUserRow.Tags}}, Assignees: nil}
 			} else {
 				newTaskEntry = TaskWithUser{Task: Task{Id: taskUserRow.Id, NewTask: NewTask{Progress: taskUserRow.Progress, Name: taskUserRow.Name, Tags: taskUserRow.Tags}}, Assignees: newCompositon}
@@ -221,5 +231,6 @@ func GetTasks() []TaskWithUser {
 		}
 	}
 
-	return taskWithAssignee
+	rowCount := QueryIntervalCount()
+	return taskWithAssignee, rowCount
 }

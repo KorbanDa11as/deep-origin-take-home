@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"temporally/datalayer"
 
 	// "reflect"
@@ -24,24 +25,9 @@ type Assignees struct {
 	Ids []int64 `json:"assignees" form:"assignees" `
 }
 
-type formTimerConfig struct {
-	Id          int64
-	Name        string  `json:"name" form:"name" validate:"required,min=3"`
-	Description string  `json:"description" form:"description" `
-	Composition []int64 `json:"composition" form:"composition" `
-	Repeat      int     `json:"repeat" form:"repeat" validate:"gte=0"`
-}
-type newTimerConfig struct {
-	Name        string  `json:"name" form:"name" validate:"required,min=3"`
-	Description string  `json:"description" form:"description" `
-	Composition []int64 `json:"composition" form:"composition" `
-	Repeat      int     `json:"repeat" form:"repeat" validate:"gt=0"`
-}
-type IntervalForm struct {
-	Name     string `json:"name" form:"name" validate:"required,min=3"`
-	Color    string `  .json:"color" form:"color" validate:"required"`
-	Duration int    `json:"duration" form:"duration" validate:"gte=0"`
-	Id       int64
+type DataList[T any] struct {
+	Data  []T `json:"data"`
+	Total int `json:"total"`
 }
 
 func main() {
@@ -64,18 +50,23 @@ func main() {
 	// })
 	// // GET Methods
 
-	e.GET("/tasks", func(c echo.Context) error {
-		// var page int
-		// ParseParam(c, "page", &page)
+	e.GET("/tasks/:page", func(c echo.Context) error {
+		var page int
+		ParseParam(c, "page", &page)
 
-		data := datalayer.GetTasks()
-		return c.JSON(http.StatusOK, data)
+		limitStr := c.QueryParam("limit")
+		limit, err := strconv.Atoi(limitStr)
+		if err != nil {
+			limit = 1
+		}
+		data, rowCount := datalayer.GetTasks(page, limit)
+		return c.JSON(http.StatusOK, DataList[datalayer.TaskWithUser]{Data: data, Total: rowCount})
 	})
 	e.GET("/users", func(c echo.Context) error {
 		// var page int
-		// ParseParam(c, "page", &page)
-
-		data := datalayer.GetUsers()
+		fullName := c.QueryParam("name")
+		fmt.Println(fullName, "fullName")
+		data := datalayer.GetUsers(fullName)
 		return c.JSON(http.StatusOK, data)
 	})
 
@@ -100,7 +91,6 @@ func main() {
 		// 	return err
 		// }
 		//
-		//datalayer.NewTimerConfig(timerForm)
 		data := datalayer.UpdateTaskAssigneeAssoc(taskId, newAssignees.Ids)
 
 		return c.JSON(http.StatusOK, data)
