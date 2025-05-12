@@ -4,7 +4,7 @@ import { columns } from './column-def';
 import { Table } from './components/table/table';
 import { filterUsers, getTasks, getUsers, Task, User } from './api/methods';
 import { ServerTable } from './components/table/server-table';
-import { Option } from './components/autocomplete/multi-select-controlled';
+import { Option } from './components/multi-select/multi-select';
 
 function App() {
 

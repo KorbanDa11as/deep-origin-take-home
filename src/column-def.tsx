@@ -1,6 +1,6 @@
 import { ColumnDef, Table, } from "@tanstack/react-table";
 import { MultiValue } from "react-select";
-import { AutoComplete, Option } from "./components/autocomplete/multi-select-controlled";
+import { MultiSelect, Option } from "./components/multi-select/multi-select";
 import { TableMeta } from "./components/table/table";
 import { filterUsers, getUsers, Task, updateAssignees, User } from "./api/methods";
 
@@ -55,7 +55,7 @@ export function columns(initUsers: User[]): ColumnDef<Task>[] {
       id: 'assignees',
       size: 400,
       cell: ({ cell, row, table }) => {
-        return AutoComplete({
+        return MultiSelect({
           initOptions: mapUsersToOption(initUsers),
           filterOptions: (inputString) => filterUsers(inputString, mapUsersToOption),
           changeHandler: (selection) => { handleAssigneeUpdate(selection, row.original, table) },

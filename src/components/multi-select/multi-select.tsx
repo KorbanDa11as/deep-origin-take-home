@@ -73,13 +73,13 @@ export interface Option {
   readonly value: string;
   readonly label: string;
 }
-type AsyncAutoCompleteProps = {
+type AsyncMultiSelectProps = {
   filterOptions: (filterString: string) => Promise<Option[]>
   changeHandler: (newSelection: OnChangeValue<Option, true>) => void
   initOptions: Option[]
   selection: Option[]
 }
-export function AutoComplete({ filterOptions, changeHandler, selection, initOptions = [] }: AsyncAutoCompleteProps) {
+export function MultiSelect({ filterOptions, changeHandler, selection, initOptions = [] }: AsyncMultiSelectProps) {
   function removeValue(options: Options<Option>, index: number) {
     changeHandler(selection.filter((_, i) => i !== index))
   }
