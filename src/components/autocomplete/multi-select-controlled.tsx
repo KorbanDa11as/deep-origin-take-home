@@ -94,7 +94,7 @@ export function AutoComplete({ filterOptions, changeHandler, selection, initOpti
 
 
   return (<Provider>
-    <Root  >
+    <Root open >
       < AsyncSelect
         className="select-container"
         onChange={changeHandler}

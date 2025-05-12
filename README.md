@@ -32,7 +32,7 @@ radix-ui/tooltip:
 - context pattern which provides component isolation between the tooltip content, and the trigger
 - context pattern keeps the logic localized to the relevant render tree
 
-# code Organization
+# Code Organization
 
 ## client side
 
