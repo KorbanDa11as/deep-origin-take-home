@@ -20,8 +20,9 @@ react-table:
 - headless,
 - supports server data,
 - configurable column def
+- git line test
 
-react-select:
+  react-select:
 
 - most popular autocomplete package
 - includes functional multi-select
